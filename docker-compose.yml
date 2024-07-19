@@ -7,7 +7,6 @@ services:
       - "3000:3000"
     volumes:
       - ./app:/usr/src/app
-      - /usr/src/app/node_modules
     environment:
       - NODE_ENV=development
     command: ["npm", "run", "dev"]

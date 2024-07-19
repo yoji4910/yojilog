@@ -4,7 +4,7 @@ SERVICE := nextjs
 
 
 build:
-	mkdir -p node_modules
+	mkdir -p app/node_modules
 	$(DC) build
 
 up:
@@ -22,12 +22,11 @@ logs:
 sh:
 	$(DC) exec $(SERVICE) sh
 
-npm-install:
-	$(DC) run --rm $(SERVICE) npm install
+# npm-install:
+# 	$(DC) run --rm $(SERVICE) npm install
 
 init:
 	@make down-v
 	@make build
-	@make npm-install
 	@make up
 	@make logs
