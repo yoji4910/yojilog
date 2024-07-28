@@ -12,13 +12,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # RUN npm install -g wrangler
 
 # Copy package.json and package-lock.json
-COPY app/package*.json ./
+COPY package*.json ./
 
 # Install dependencies
 RUN npm ci
 
 # Copy the rest of the application
-COPY app/ .
+COPY . .
 
 # Expose port 3000 for Next.js development server
 EXPOSE 3000

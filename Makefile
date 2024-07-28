@@ -4,7 +4,7 @@ SERVICE := nextjs
 
 
 build:
-	mkdir -p app/node_modules
+	mkdir -p node_modules
 	$(DC) build
 
 up:
