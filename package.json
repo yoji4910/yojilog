@@ -21,6 +21,7 @@
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
+    "@cloudflare/next-on-pages": "^1.12.1",
     "@slicemachine/adapter-next": "^0.3.42",
     "@types/node": "^20.14.2",
     "@types/react": "^18.3.3",

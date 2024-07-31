@@ -3,6 +3,8 @@ import { repositoryName } from '@/prismicio'
 
 import '@/styles/globals.css'
 
+export const runtime = 'edge'
+
 export default function RootLayout({
   children,
 }: {
