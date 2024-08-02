@@ -34,6 +34,8 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
+export const runtime = 'edge'
+
 export default async function Index() {
   // The client queries content from the Prismic API
   const client = createClient()

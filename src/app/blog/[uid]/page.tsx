@@ -43,6 +43,8 @@ export async function generateMetadata({
   }
 }
 
+export const runtime = 'edge'
+
 export default async function Page({ params }: { params: Params }) {
   const client = createClient()
 
