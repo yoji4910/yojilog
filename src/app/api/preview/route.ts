@@ -6,8 +6,6 @@ import { createClient } from '@/prismicio'
 /**
  * This endpoint handles previews that are launched from the Page Builder.
  */
-export const runtime = 'edge'
-
 export async function GET(request: NextRequest) {
   const client = createClient()
 

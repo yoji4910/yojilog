@@ -1,5 +1,3 @@
-// ./src/app/blog/[uid]/page.tsx
-
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 
@@ -14,10 +12,6 @@ import { RichText } from '@/components/RichText'
 import { Navigation } from '@/components/Navigation'
 
 type Params = { uid: string }
-
-/**
- * This page renders a Prismic Document dynamically based on the URL.
- */
 
 export async function generateMetadata({
   params,
@@ -43,21 +37,22 @@ export async function generateMetadata({
   }
 }
 
-export const runtime = 'edge'
+export async function generateStaticParams() {
+  const client = createClient()
+  const pages = await client.getAllByType('blog_post')
+
+  return pages.map((page) => ({
+    uid: page.uid,
+  }))
+}
 
 export default async function Page({ params }: { params: Params }) {
   const client = createClient()
 
-  // Fetch the current blog post page being displayed by the UID of the page
   const page = await client
     .getByUID('blog_post', params.uid)
     .catch(() => notFound())
 
-  /**
-   * Fetch all of the blog posts in Prismic (max 2), excluding the current one, and ordered by publication date.
-   *
-   * We use this data to display our "recommended posts" section at the end of the blog post
-   */
   const posts = await client.getAllByType('blog_post', {
     predicates: [prismic.filter.not('my.blog_post.uid', params.uid)],
     orderings: [
@@ -67,7 +62,6 @@ export default async function Page({ params }: { params: Params }) {
     limit: 2,
   })
 
-  // Destructure out the content of the current page
   const { slices, title, publication_date, description, featured_image } =
     page.data
 
@@ -75,7 +69,6 @@ export default async function Page({ params }: { params: Params }) {
     <div className="flex flex-col gap-12 w-full max-w-3xl">
       <Navigation client={client} />
 
-      {/* Display the "hero" section of the blog post */}
       <section className="flex flex-col gap-12">
         <div className="flex flex-col items-center gap-3 w-full">
           <div className="flex flex-col gap-6 items-center">
@@ -97,10 +90,8 @@ export default async function Page({ params }: { params: Params }) {
         />
       </section>
 
-      {/* Display the content of the blog post */}
       <SliceZone slices={slices} components={components} />
 
-      {/* Display the Recommended Posts section using the posts we requested earlier */}
       <h2 className="font-bold text-3xl">Recommended Posts</h2>
       <section className="grid grid-cols-1 gap-8 max-w-3xl w-full">
         {posts.map((post) => (
@@ -111,20 +102,4 @@ export default async function Page({ params }: { params: Params }) {
       <Navigation client={client} />
     </div>
   )
-}
-
-export async function generateStaticParams() {
-  const client = createClient()
-
-  /**
-   * Query all Documents from the API, except the homepage.
-   */
-  const pages = await client.getAllByType('blog_post')
-
-  /**
-   * Define a path for every Document.
-   */
-  return pages.map((page) => {
-    return { uid: page.uid }
-  })
 }
