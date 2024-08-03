@@ -8,6 +8,8 @@ import { redirect } from 'next/navigation'
 
 import { components } from '@/slices'
 
+export const runtime = 'edge'
+
 export default function SliceSimulatorPage({
   searchParams,
 }: SliceSimulatorParams & { searchParams: { secret?: string } }) {
