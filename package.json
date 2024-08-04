@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "start": "next start",
+    "start": "npx serve@latest out",
     "lint": "next lint",
     "format": "prettier --write ."
   },
@@ -27,6 +27,7 @@
     "eslint": "^8.57.0",
     "eslint-config-next": "^14.2.4",
     "postcss": "^8.4.39",
+    "serve": "^14.2.3",
     "slice-machine-ui": "^2.2.1",
     "tailwindcss": "^3.4.6",
     "typescript": "^5.4.5"
