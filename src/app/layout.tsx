@@ -21,35 +21,14 @@ export default function RootLayout({
 
       <body className="flex flex-col items-center bg-stone-50">
         <div className="bg-white max-w-7xl min-h-screen border-x border-solid border-gray-200 p-12 w-full flex flex-col gap-20 items-center text-slate-700">
-          <ErrorBoundary fallback={<ErrorComponent />}>
-            <div className="bg-white max-w-7xl min-h-screen border-x border-solid border-gray-200 p-12 w-full flex flex-col gap-20 items-center text-slate-700">
-              {children}
-              {process.env.NODE_ENV === "development" && (
-                <PrismicPreview repositoryName={repositoryName} />
-              )}
-            </div>
-          </ErrorBoundary>
+          <div className="bg-white max-w-7xl min-h-screen border-x border-solid border-gray-200 p-12 w-full flex flex-col gap-20 items-center text-slate-700">
+            {children}
+            {process.env.NODE_ENV === "development" && (
+              <PrismicPreview repositoryName={repositoryName} />
+            )}
+          </div>
         </div>
       </body>
     </html>
   );
-}
-
-function ErrorBoundary({
-  children,
-  fallback,
-}: {
-  children: React.ReactNode;
-  fallback: React.ReactNode;
-}) {
-  try {
-    return children;
-  } catch (error) {
-    console.error("Caught an error:", error);
-    return fallback;
-  }
-}
-
-function ErrorComponent() {
-  return <div>Something went wrong. Please try again later.</div>;
 }
