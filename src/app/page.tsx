@@ -40,7 +40,7 @@ export default async function Home() {
 
   return (
     <>
-      <p>hello</p>
+      <p className="text-red-700">hello</p>
       <p>this is home</p>
       {/* <Navigation client={client} />
 

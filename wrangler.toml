@@ -1,3 +1,0 @@
-name = "yojilog"
-
-compatibility_flags = ["nodejs_compat"]
