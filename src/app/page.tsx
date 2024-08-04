@@ -37,30 +37,20 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export async function getStaticProps() {
+export default async function Index() {
   const client = createClient();
 
   const [home, posts, navigationData] = await Promise.all([
-    client.getByUID("page", "home"),
+    client.getByUID("page", "home") as Promise<PageDocument>,
     client.getAllByType("blog_post", {
       orderings: [
         { field: "my.blog_post.publication_date", direction: "desc" },
         { field: "document.first_publication_date", direction: "desc" },
       ],
-    }),
-    client.getSingle("navigation"),
+    }) as Promise<BlogPostDocument[]>,
+    client.getSingle("navigation") as Promise<NavigationDocument>,
   ]);
 
-  return {
-    props: {
-      home,
-      posts,
-      navigationData,
-    },
-  };
-}
-
-export default function Index({ home, posts, navigationData }: PageProps) {
   return (
     <>
       <Navigation navigationData={navigationData} />

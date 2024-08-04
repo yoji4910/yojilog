@@ -5,7 +5,7 @@ import { NavigationDocument } from "prismicio-types";
 export const Navigation = ({
   navigationData,
 }: {
-  navigationData: NavigationDocument<string>;
+  navigationData: NavigationDocument;
 }): JSX.Element => {
   return (
     <nav className="font-bold text-xl self-center">
