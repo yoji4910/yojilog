@@ -7,6 +7,17 @@ import { createClient } from "@/prismicio";
 import { components } from "@/slices";
 import { PostCard } from "@/components/PostCard";
 import { Navigation } from "@/components/Navigation";
+import {
+  BlogPostDocument,
+  NavigationDocument,
+  PageDocument,
+} from "prismicio-types";
+
+type PageProps = {
+  home: PageDocument<string>;
+  posts: BlogPostDocument<string>[];
+  navigationData: NavigationDocument<string>;
+};
 
 export async function generateMetadata(): Promise<Metadata> {
   const client = createClient();
@@ -26,21 +37,33 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function Index() {
+export async function getStaticProps() {
   const client = createClient();
 
-  const home = await client.getByUID("page", "home");
+  const [home, posts, navigationData] = await Promise.all([
+    client.getByUID("page", "home"),
+    client.getAllByType("blog_post", {
+      orderings: [
+        { field: "my.blog_post.publication_date", direction: "desc" },
+        { field: "document.first_publication_date", direction: "desc" },
+      ],
+    }),
+    client.getSingle("navigation"),
+  ]);
 
-  const posts = await client.getAllByType("blog_post", {
-    orderings: [
-      { field: "my.blog_post.publication_date", direction: "desc" },
-      { field: "document.first_publication_date", direction: "desc" },
-    ],
-  });
+  return {
+    props: {
+      home,
+      posts,
+      navigationData,
+    },
+  };
+}
 
+export default function Index({ home, posts, navigationData }: PageProps) {
   return (
     <>
-      <Navigation client={client} />
+      <Navigation navigationData={navigationData} />
 
       <SliceZone slices={home.data.slices} components={components} />
 
@@ -50,10 +73,7 @@ export default async function Index() {
         ))}
       </section>
 
-      <Navigation client={client} />
+      <Navigation navigationData={navigationData} />
     </>
   );
 }
-
-// オプション: Incremental Static Regeneration (ISR) を有効にする
-// export const revalidate = 3600 // 1時間ごとに再生成

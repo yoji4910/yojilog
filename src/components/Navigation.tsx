@@ -1,25 +1,24 @@
-import { Client, Content, isFilled } from '@prismicio/client'
-import { PrismicLink } from '@prismicio/react'
+import { PrismicLink } from "@prismicio/react";
+import { isFilled } from "@prismicio/client";
+import { NavigationDocument } from "prismicio-types";
 
-export const Navigation = async ({
-  client,
+export const Navigation = ({
+  navigationData,
 }: {
-  client: Client<Content.AllDocumentTypes>
-}): Promise<JSX.Element> => {
-  const navigation = await client.getSingle('navigation')
-
+  navigationData: NavigationDocument<string>;
+}): JSX.Element => {
   return (
     <nav className="font-bold text-xl self-center">
       <ul>
-        {isFilled.group(navigation.data.menu_items) &&
-          navigation.data.menu_items.map((item) => {
+        {isFilled.group(navigationData.data.menu_items) &&
+          navigationData.data.menu_items.map((item) => {
             return (
               <li key={item.label}>
                 <PrismicLink field={item.link}>{item.label}</PrismicLink>
               </li>
-            )
+            );
           })}
       </ul>
     </nav>
-  )
-}
+  );
+};
