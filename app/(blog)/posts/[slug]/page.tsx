@@ -1,38 +1,38 @@
-import type { Metadata, ResolvingMetadata } from "next";
-import { groq, type PortableTextBlock } from "next-sanity";
-import Link from "next/link";
-import { notFound } from "next/navigation";
-import { Suspense } from "react";
+import type { Metadata, ResolvingMetadata } from 'next'
+import { groq, type PortableTextBlock } from 'next-sanity'
+import Link from 'next/link'
+import { notFound } from 'next/navigation'
+import { Suspense } from 'react'
 
-import Avatar from "../../avatar";
-import CoverImage from "../../cover-image";
-import DateComponent from "../../date";
-import MoreStories from "../../more-stories";
-import PortableText from "../../portable-text";
+import Avatar from '../../avatar'
+import CoverImage from '../../cover-image'
+import DateComponent from '../../date'
+import MoreStories from '../../more-stories'
+import PortableText from '../../portable-text'
 
 import type {
   PostQueryResult,
   PostSlugsResult,
   SettingsQueryResult,
-} from "@/sanity.types";
-import * as demo from "@/sanity/lib/demo";
-import { sanityFetch } from "@/sanity/lib/fetch";
-import { postQuery, settingsQuery } from "@/sanity/lib/queries";
-import { resolveOpenGraphImage } from "@/sanity/lib/utils";
+} from '@/sanity.types'
+import * as demo from '@/sanity/lib/demo'
+import { sanityFetch } from '@/sanity/lib/fetch'
+import { postQuery, settingsQuery } from '@/sanity/lib/queries'
+import { resolveOpenGraphImage } from '@/sanity/lib/utils'
 
 type Props = {
-  params: { slug: string };
-};
+  params: { slug: string }
+}
 
-const postSlugs = groq`*[_type == "post"]{slug}`;
+const postSlugs = groq`*[_type == "post"]{slug}`
 
 export async function generateStaticParams() {
   const params = await sanityFetch<PostSlugsResult>({
     query: postSlugs,
-    perspective: "published",
+    perspective: 'published',
     stega: false,
-  });
-  return params.map(({ slug }) => ({ slug: slug?.current }));
+  })
+  return params.map(({ slug }) => ({ slug: slug?.current }))
 }
 
 export async function generateMetadata(
@@ -43,9 +43,9 @@ export async function generateMetadata(
     query: postQuery,
     params,
     stega: false,
-  });
-  const previousImages = (await parent).openGraph?.images || [];
-  const ogImage = resolveOpenGraphImage(post?.coverImage);
+  })
+  const previousImages = (await parent).openGraph?.images || []
+  const ogImage = resolveOpenGraphImage(post?.coverImage)
 
   return {
     authors: post?.author?.name ? [{ name: post?.author?.name }] : [],
@@ -54,7 +54,7 @@ export async function generateMetadata(
     openGraph: {
       images: ogImage ? [ogImage, ...previousImages] : previousImages,
     },
-  } satisfies Metadata;
+  } satisfies Metadata
 }
 
 export default async function PostPage({ params }: Props) {
@@ -66,16 +66,16 @@ export default async function PostPage({ params }: Props) {
     sanityFetch<SettingsQueryResult>({
       query: settingsQuery,
     }),
-  ]);
+  ])
 
   if (!post?._id) {
-    return notFound();
+    return notFound()
   }
 
   return (
     <div className="container mx-auto px-5">
       <h2 className="mb-16 mt-10 text-2xl font-bold leading-tight tracking-tight md:text-4xl md:tracking-tighter">
-        <Link href="/" className="hover:underline">
+        <Link href="/" className="no-underline">
           {settings?.title || demo.title}
         </Link>
       </h2>
@@ -120,5 +120,5 @@ export default async function PostPage({ params }: Props) {
         </Suspense>
       </aside>
     </div>
-  );
+  )
 }

@@ -21,7 +21,9 @@ function Intro(props: { title: string | null | undefined; description: any }) {
   return (
     <section className="mt-16 mb-16 flex flex-col items-center lg:mb-12 lg:flex-row lg:justify-between">
       <h1 className="text-balance text-6xl font-bold leading-tight tracking-tighter lg:pr-8 lg:text-8xl">
-        <Link href="/">{title || demo.title}</Link>
+        <Link href="/" className="no-underline">
+          {title || demo.title}
+        </Link>
       </h1>
       <h2 className="text-pretty mt-5 text-center text-lg lg:pl-8 lg:text-left">
         <PortableText
@@ -98,7 +100,7 @@ export default async function Page() {
       )}
       {heroPost?._id && (
         <aside>
-          <h2 className="mb-8 text-6xl font-bold leading-tight tracking-tighter md:text-7xl">
+          <h2 className="mb-8 text-4xl font-bold leading-tight tracking-tighter md:text-6xl">
             More Stories
           </h2>
           <Suspense>
