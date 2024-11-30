@@ -1,36 +1,36 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## TerminalでDBにアクセス
+1. `docker compose exec db bash`
+2. `psql -h localhost -U postgres -d yojilog`
+3. データベース一覧を見る `\l`
+4. データベース切り替え `\c yojilog` (今回は２で切り替え済み)
+5. テーブル一覧 `\dt`
+\d テーブル名        # テーブルの構造を表示
+\du                 # ユーザー一覧を表示
+\dx                 # インストールされた拡張機能を表示
+\timing             # クエリの実行時間を表示
+\q                  # psqlを終了
 
-## Getting Started
+# よく使うSQLコマンド：
+SELECT current_database();          # 現在のデータベース名を表示
+SELECT version();                   # PostgreSQLのバージョンを表示
+SELECT * FROM テーブル名 LIMIT 5;    # テーブルの先頭5行を表示
 
-First, run the development server:
+-- テーブル内の全てのカラムと行を表示
+SELECT * FROM テーブル名;
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+-- 特定のカラムのみ表示
+SELECT カラム1, カラム2 FROM テーブル名;
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+-- レコード数を確認
+SELECT COUNT(*) FROM テーブル名;
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+-- テーブルのカラム情報を確認
+SELECT column_name, data_type, character_maximum_length
+FROM INFORMATION_SCHEMA.COLUMNS
+WHERE table_name = 'テーブル名';
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+便利なTips：
+- \? でpsqlのコマンド一覧を表示できます
+- \h でSQLコマンドのヘルプを表示できます
+- コマンドは大文字小文字を区別しません
+- SQLコマンドは必ずセミコロン(;)で終える必要があります
