@@ -1,8 +1,9 @@
-export default function PostNewPage() {
+import Form from './_components/Form'
+
+export default function NewPostPage() {
   return (
-    <div>
-      <div>ここはposts newぺーじです</div>
-      <div>ここはposts newぺーじです</div>
+    <div className='grid place-items-center'>
+      <Form />
     </div>
   )
 }
