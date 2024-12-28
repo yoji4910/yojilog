@@ -5,7 +5,11 @@ export function SignInForm() {
     <form
       action={async (formData) => {
         'use server'
-        await signIn('credentials', formData, { redirectTo: '/' })
+        try {
+          await signIn('credentials', formData, { redirectTo: '/' })
+        } catch (error) {
+          console.error('サインインに失敗しました:', error)
+        }
       }}
       className='flex flex-col gap-2'
     >

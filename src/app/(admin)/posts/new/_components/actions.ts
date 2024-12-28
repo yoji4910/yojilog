@@ -20,7 +20,7 @@ export const createPost = async (formData: FormData) => {
         title: validatedData.title,
         content: validatedData.content,
         // TODO: 認証機能作成後まで固定値とする
-        authorId: 'cuid',
+        authorId: 'cm4f84ahm00004dsr687l5h48',
       },
     })
 

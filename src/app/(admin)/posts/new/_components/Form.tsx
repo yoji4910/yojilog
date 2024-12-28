@@ -18,7 +18,7 @@ export default function Form() {
         content: formData.get('content'),
       })
       await createPost(formData)
-      router.push('/dashboard')
+      router.push('/')
     } catch (error) {
       console.error(error)
     }
