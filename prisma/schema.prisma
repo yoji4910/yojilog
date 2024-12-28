@@ -13,9 +13,8 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Post {
+model Log {
   id        String   @id @default(cuid())
-  title     String   @db.VarChar(255)
   content   String?
   published Boolean  @default(false)
   createdAt DateTime @default(now())
@@ -38,6 +37,6 @@ model User {
   hashedPassword String
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
-  posts          Post[]
+  logs           Log[]
   profile        Profile?
 }

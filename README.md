@@ -34,3 +34,9 @@ WHERE table_name = 'テーブル名';
 - \h でSQLコマンドのヘルプを表示できます
 - コマンドは大文字小文字を区別しません
 - SQLコマンドは必ずセミコロン(;)で終える必要があります
+
+# Migration方法
+1. npx prisma migrate dev --name init
+
+# Seed
+npx prisma db seed
