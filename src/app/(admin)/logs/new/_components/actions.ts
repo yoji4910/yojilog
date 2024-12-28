@@ -4,23 +4,20 @@ import { prisma } from '@/lib/prisma'
 import { z } from 'zod'
 
 const PostSchema = z.object({
-  title: z.string().min(1, { message: 'タイトルは必須です' }),
   content: z.string().min(1, { message: '内容は必須です' }),
 })
 
-export const createPost = async (formData: FormData) => {
+export const createLog = async (formData: FormData) => {
   try {
     const validatedData = PostSchema.parse({
-      title: formData.get('title'),
       content: formData.get('content'),
     })
 
-    const post = await prisma.post.create({
+    const post = await prisma.log.create({
       data: {
-        title: validatedData.title,
         content: validatedData.content,
         // TODO: 認証機能作成後まで固定値とする
-        authorId: 'cm4f84ahm00004dsr687l5h48',
+        authorId: 'cm57vprqc00004d0irlf0cies',
       },
     })
 

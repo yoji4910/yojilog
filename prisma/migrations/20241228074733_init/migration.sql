@@ -1,8 +1,7 @@
 -- CreateTable
 CREATE TABLE "Log" (
     "id" TEXT NOT NULL,
-    "title" VARCHAR(255) NOT NULL,
-    "content" TEXT,
+    "content" TEXT NOT NULL,
     "published" BOOLEAN NOT NULL DEFAULT false,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
