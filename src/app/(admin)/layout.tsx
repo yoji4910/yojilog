@@ -1,4 +1,5 @@
 import { auth } from '@/auth'
+import { SessionProvider } from 'next-auth/react'
 
 export default async function AdminLayout({
   children,
@@ -8,6 +9,8 @@ export default async function AdminLayout({
   const session = await auth()
 
   return (
-    <>{session ? children : <p className='text-black'>ログインが必要です</p>}</>
+    <SessionProvider>
+      {session ? children : <p className='text-black'>ログインが必要です</p>}
+    </SessionProvider>
   )
 }

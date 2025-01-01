@@ -1,31 +1,29 @@
 'use client'
 
 import { Button } from '@/components/Button/Button'
+import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { createLog } from './actions'
 
 export default function Form() {
   const router = useRouter()
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const formData = new FormData(e.currentTarget)
+  const session = useSession()
+  const userId = session.data?.user?.id
 
+  const handleSubmit = async (formData: FormData) => {
     try {
       // TODO: APIエンドポイントに投稿データを送信
-      console.log({
-        content: formData.get('content'),
-      })
       await createLog(formData)
       router.push('/')
     } catch (error) {
-      console.error(error)
+      console.log(error)
     }
   }
 
   return (
     <form
-      onSubmit={handleSubmit}
+      action={handleSubmit}
       className='flex w-full flex-col gap-4 max-w-2xl mx-auto p-6'
     >
       <div className='flex flex-col gap-2'>

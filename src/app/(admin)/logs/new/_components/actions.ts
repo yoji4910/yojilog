@@ -1,5 +1,6 @@
 'use server'
 
+import { auth } from '@/auth'
 import { prisma } from '@/lib/prisma'
 import { z } from 'zod'
 
@@ -8,21 +9,43 @@ const PostSchema = z.object({
 })
 
 export const createLog = async (formData: FormData) => {
-  try {
-    const validatedData = PostSchema.parse({
-      content: formData.get('content'),
-    })
+  console.log('FormData:', formData)
+  const session = await auth()
+  const sessionEmail = session?.user?.email
 
+  if (!sessionEmail) {
+    return { success: false, error: 'ログイン情報取得失敗' }
+  }
+
+  const user = await prisma.user.findUnique({
+    where: { email: sessionEmail },
+  })
+
+  if (!user) {
+    return { success: false, error: 'ログイン情報取得失敗' }
+  }
+
+  const parsed = PostSchema.safeParse({
+    content: formData.get('content'),
+  })
+
+  if (!parsed.success) {
+    console.error('パースエラー: ', parsed.error)
+    return { success: false, error: 'パースエラー' }
+  }
+
+  try {
     const post = await prisma.log.create({
       data: {
-        content: validatedData.content,
+        content: parsed.data.content,
         // TODO: 認証機能作成後まで固定値とする
-        authorId: 'cm57vprqc00004d0irlf0cies',
+        authorId: user.id,
       },
     })
 
     return { success: true, data: post }
   } catch (error) {
+    console.log(error)
     if (error instanceof z.ZodError) {
       return { success: false, error: error.errors }
     }
