@@ -48,7 +48,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     // NOTE: デフォルトで`jwt`なので明示する必要はない
     strategy: 'jwt',
   },
-  pages: {
-    signIn: '/sign-in',
-  },
+  // pages: {
+  //   signIn: '/sign-in',
+  // },
 })

@@ -1,4 +1,4 @@
-import { signIn } from '@/app/auth'
+import { signIn } from '@/auth'
 
 export function SignInForm() {
   return (
@@ -6,18 +6,21 @@ export function SignInForm() {
       action={async (formData) => {
         'use server'
         try {
-          await signIn('credentials', formData, { redirectTo: '/' })
-        } catch (error) {
-          console.error('サインインに失敗しました:', error)
+          console.log('before login')
+          const res = await signIn('credentials', formData)
+          console.log('after login')
+          console.log('res: ', res)
+        } catch (e) {
+          console.error(e)
         }
       }}
       className='flex flex-col gap-2'
     >
-      <label>
+      <label className='flex gap-2'>
         Email
         <input name='email' type='email' />
       </label>
-      <label>
+      <label className='flex gap-2'>
         Password
         <input name='password' type='password' />
       </label>

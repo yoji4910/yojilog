@@ -1,16 +1,16 @@
-import bcrypt from 'bcrypt'
+import bycrypt from 'bcryptjs'
 
 const SALT_ROUNDS = 10
 
 export const saltAndHashPassword = async (
   password: string,
 ): Promise<string> => {
-  return await bcrypt.hash(password, SALT_ROUNDS)
+  return await bycrypt.hash(password, SALT_ROUNDS)
 }
 
 export const verifyPassword = async (
   password: string,
   hashedPassword: string,
 ): Promise<boolean> => {
-  return await bcrypt.compare(password, hashedPassword)
+  return await bycrypt.compare(password, hashedPassword)
 }
